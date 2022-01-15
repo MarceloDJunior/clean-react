@@ -5,7 +5,8 @@
   "author": "Marcelo Dornelles Junior <marcelo_dj28@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --passWithNoTests",
+    "start": "webpack-dev-server --open",
+    "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "yarn test -- --watch",
     "test:staged": "yarn test -- --findRelatedTests",
     "test:ci": "yarn test -- --coverage"
@@ -17,11 +18,13 @@
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.6.0",
     "eslint-config-standard-with-typescript": "11",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-standard": "^5.0.0",
     "faker": "https://github.com/faker-js/faker",
     "git-commit-msg-linter": "3.0.0",
