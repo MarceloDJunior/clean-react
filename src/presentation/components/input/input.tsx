@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './footer-styles.scss'
+import styles from './input-styles.scss'
 
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
