@@ -6,7 +6,7 @@ import styles from './form-status-styles.scss'
 const FormStatus: React.FC = () => {
   const { isLoading, errorMessage } = useContext(FormContext)
   return (
-    <div className={styles.errorWrap} data-testId='error-wrap'>
+    <div className={styles.errorWrap} data-testid='error-wrap'>
       {isLoading && <Spinner className={styles.spinner} />}
       {errorMessage && <span className={styles.error}>{errorMessage}</span>}
     </div>
