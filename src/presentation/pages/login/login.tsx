@@ -15,6 +15,10 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     validation?.validate({ email: state.email })
   }, [state.email])
 
+  useEffect(() => {
+    validation?.validate({ password: state.password })
+  }, [state.password])
+
   return (
     <div className={styles.login}>
       <LoginHeader />
@@ -23,7 +27,8 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Digite seu e-mail" error={state.emailError}
             onChange={(event) => setState({ ...state, email: event.target.value })} />
-          <Input type="password" name="password" placeholder="Digite sua senha" error={state.passwordError} />
+          <Input type="password" name="password" placeholder="Digite sua senha" error={state.passwordError}
+            onChange={(event) => setState({ ...state, password: event.target.value })} />
           <button type="submit" className={styles.submit} disabled data-testid="submit">Entrar</button>
           <span className={styles.link}>Criar conta</span>
           <FormStatus />
