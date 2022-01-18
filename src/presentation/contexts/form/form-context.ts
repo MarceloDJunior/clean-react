@@ -15,7 +15,7 @@ export const formInitialState: FormContextProps = {
   password: '',
   errorMessage: '',
   emailError: '',
-  passwordError: 'Campo obrigatório'
+  passwordError: ''
 }
 
 export default createContext(formInitialState)
