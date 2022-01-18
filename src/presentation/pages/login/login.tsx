@@ -12,7 +12,10 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
   const [state, setState] = useState<FormContextProps>(formInitialState)
 
   useEffect(() => {
-    validation?.validate('email', state.email)
+    setState({
+      ...state,
+      emailError: validation?.validate('email', state.email) || ''
+    })
   }, [state.email])
 
   useEffect(() => {
