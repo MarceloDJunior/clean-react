@@ -1,13 +1,9 @@
 import { Validation } from '@/presentation/protocols/validation'
 
-export class ValidationSpy implements Validation {
+export class ValidationStub implements Validation {
   errorMessage: string | null = null
-  fieldName?: string
-  fieldValue?: string
 
-  validate (fieldName: string, fieldValue: string): string | null {
-    this.fieldName = fieldName
-    this.fieldValue = fieldValue
+  validate (_fieldName: string, _fieldValue: string): string | null {
     return this.errorMessage
   }
 }
