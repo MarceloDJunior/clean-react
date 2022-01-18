@@ -29,7 +29,7 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
             onChange={(event) => setState({ ...state, email: event.target.value })} />
           <Input type="password" name="password" placeholder="Digite sua senha" error={state.passwordError}
             onChange={(event) => setState({ ...state, password: event.target.value })} />
-          <button type="submit" className={styles.submit} disabled data-testid="submit">Entrar</button>
+          <button type="submit" className={styles.submit} disabled={!!state.emailError || !!state.passwordError} data-testid="submit">Entrar</button>
           <span className={styles.link}>Criar conta</span>
           <FormStatus />
         </form>
