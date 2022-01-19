@@ -17,11 +17,12 @@
     },
     "allowJs": true,
     "strict": true,
+    "useUnknownInCatchVariables": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
   },
   "include": [
     "src"
-  ]
+  ],
 }
