@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { LoginHeader, Footer, Input, FormStatus } from '@/presentation/components'
 import FormContext, { FormContextProps, formInitialState } from '@/presentation/contexts/form/form-context'
 import styles from './login-styles.scss'
@@ -53,7 +54,7 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
           <Input type="password" name="password" placeholder="Digite sua senha" error={state.passwordError}
             onChange={(event) => setState({ ...state, password: event.target.value })} />
           <button type="submit" className={styles.submit} disabled={!!state.emailError || !!state.passwordError} data-testid="submit">Entrar</button>
-          <span className={styles.link}>Criar conta</span>
+          <Link data-testid="signup" to="/signup" className={styles.link}>Criar conta</Link>
           <FormStatus />
         </form>
       </FormContext.Provider>
