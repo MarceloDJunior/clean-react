@@ -7,19 +7,19 @@ import { Validation } from '@/presentation/protocols/validation'
 import { Authentication } from '@/domain/usecases'
 
 type Props = {
-  validation?: Validation
-  authentication?: Authentication
+  validation: Validation
+  authentication: Authentication
 }
 
-const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
+export const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
   const navigate = useNavigate()
   const [state, setState] = useState<FormContextProps>(formInitialState)
 
   useEffect(() => {
     setState({
       ...state,
-      emailError: validation?.validate('email', state.email) || '',
-      passwordError: validation?.validate('password', state.password) || ''
+      emailError: validation.validate('email', state.email) || '',
+      passwordError: validation.validate('password', state.password) || ''
     })
   }, [state.email, state.password])
 
