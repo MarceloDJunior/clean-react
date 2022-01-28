@@ -10,10 +10,6 @@ const Input: React.FC<Props> = (props: Props) => {
     event.target.readOnly = false
   }
 
-  const handleChange = (event: React.FocusEvent<HTMLInputElement>): void => {
-    props.onChange?.(event)
-  }
-
   const getStatus = (): string => {
     return props.error ? '🔴' : '🟢'
   }
@@ -24,7 +20,7 @@ const Input: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={styles.inputWrap}>
-      <input {...props} data-testid={props.name} readOnly onFocus={enableInput} onChange={handleChange} />
+      <input {...props} data-testid={props.name} readOnly onFocus={enableInput} />
       <span data-testid={`${props.name}-status`} title={getTitle()} className={styles.status}>{getStatus()}</span>
     </div>
   )
