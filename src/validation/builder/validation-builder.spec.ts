@@ -1,4 +1,5 @@
 import faker from 'faker'
+
 import { ValidationBuilder } from '@/validation/builder/validation-builder'
 import { EmailValidation, MinLengthValidation, RequiredFieldValidation } from '@/validation/validators'
 

@@ -1,4 +1,5 @@
 import faker from 'faker'
+
 import { AuthenticationParams } from '@/domain/usecases'
 import { AccountModel } from '@/domain/models'
 

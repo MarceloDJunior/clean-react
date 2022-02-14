@@ -1,4 +1,5 @@
 import faker from 'faker'
+
 import { LocalSaveAccessToken } from '@/data/usecases/save-access-token/local-save-access-token'
 import { SetStorageSpy } from '@/data/test/mock-storage'
 

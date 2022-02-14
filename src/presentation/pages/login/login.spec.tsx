@@ -4,6 +4,7 @@ import { createMemoryHistory } from 'history'
 import 'jest-localstorage-mock'
 import { Router } from 'react-router-dom'
 import { cleanup, fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
+
 import { ValidationStub, AuthenticationSpy } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { Login } from '@/presentation/pages'
