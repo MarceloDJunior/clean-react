@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { LoginHeader, Footer, Input, FormStatus } from '@/presentation/components'
-import FormContext, { FormContextProps, formInitialState } from '@/presentation/contexts/form/form-context'
+import FormContext, {
+  FormContextProps,
+  formInitialState,
+} from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation'
-import { Authentication } from '@/domain/usecases'
+import { Authentication, SaveAccessToken } from '@/domain/usecases'
 
 import styles from './login-styles.scss'
 
 type Props = {
   validation: Validation
   authentication: Authentication
+  saveAccessToken: SaveAccessToken
 }
 
-export const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
+export const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }: Props) => {
   const navigate = useNavigate()
   const [state, setState] = useState<FormContextProps>(formInitialState)
 
@@ -21,7 +25,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
     setState({
       ...state,
       emailError: validation.validate('email', state.email) || '',
-      passwordError: validation.validate('password', state.password) || ''
+      passwordError: validation.validate('password', state.password) || '',
     })
   }, [state.email, state.password])
 
@@ -33,16 +37,16 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
       }
       setState({
         ...state,
-        isLoading: true
+        isLoading: true,
       })
       const account = await authentication.auth({ email: state.email, password: state.password })
-      localStorage.setItem('accessToken', account.accessToken)
+      await saveAccessToken.save(account.accessToken)
       navigate('/', { replace: true })
     } catch (error) {
       setState({
         ...state,
         isLoading: false,
-        errorMessage: error.message
+        errorMessage: error.message,
       })
     }
   }
@@ -51,14 +55,33 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
     <div className={styles.login}>
       <LoginHeader />
       <FormContext.Provider value={state}>
-        <form data-testid='form' className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="form" className={styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
-          <Input type="email" name="email" placeholder="Digite seu e-mail" error={state.emailError}
-            onChange={(event) => setState({ ...state, email: event.target.value })} />
-          <Input type="password" name="password" placeholder="Digite sua senha" error={state.passwordError}
-            onChange={(event) => setState({ ...state, password: event.target.value })} />
-          <button type="submit" className={styles.submit} disabled={!!state.emailError || !!state.passwordError} data-testid="submit">Entrar</button>
-          <Link data-testid="signup" to="/signup" className={styles.link}>Criar conta</Link>
+          <Input
+            type="email"
+            name="email"
+            placeholder="Digite seu e-mail"
+            error={state.emailError}
+            onChange={event => setState({ ...state, email: event.target.value })}
+          />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Digite sua senha"
+            error={state.passwordError}
+            onChange={event => setState({ ...state, password: event.target.value })}
+          />
+          <button
+            type="submit"
+            className={styles.submit}
+            disabled={!!state.emailError || !!state.passwordError}
+            data-testid="submit"
+          >
+            Entrar
+          </button>
+          <Link data-testid="signup" to="/signup" className={styles.link}>
+            Criar conta
+          </Link>
           <FormStatus />
         </form>
       </FormContext.Provider>
