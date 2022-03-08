@@ -1,17 +1,18 @@
 import React from 'react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
-import 'jest-localstorage-mock'
 import { Router } from 'react-router-dom'
 import { cleanup, fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 
 import { ValidationStub, AuthenticationSpy } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { Login } from '@/presentation/pages'
+import { SaveAccessTokenMock } from '@/presentation/test/mock-save-access-token'
 
 type SutTypes = {
   sut: RenderResult
   authenticationSpy: AuthenticationSpy
+  saveAccessTokenMock: SaveAccessTokenMock
 }
 
 type SutParams = {
@@ -22,16 +23,21 @@ const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
+  const saveAccessTokenMock = new SaveAccessTokenMock()
   validationStub.errorMessage = params?.validationError || null
   const sut = render(
-    <Router
-      location={'/login'}
-      navigator={history}>
-      <Login validation={validationStub} authentication={authenticationSpy} />
-    </Router>)
+    <Router location={'/login'} navigator={history}>
+      <Login
+        validation={validationStub}
+        authentication={authenticationSpy}
+        saveAccessToken={saveAccessTokenMock}
+      />
+    </Router>
+  )
   return {
     sut,
-    authenticationSpy
+    authenticationSpy,
+    saveAccessTokenMock,
   }
 }
 
@@ -57,7 +63,11 @@ const populatePasswordField = (sut: RenderResult, password = faker.internet.pass
   fireEvent.input(passwordInput, { target: { value: password } })
 }
 
-const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
+const testStatusForField = (
+  sut: RenderResult,
+  fieldName: string,
+  validationError?: string
+): void => {
   const emailStatus = sut.getByTestId(`${fieldName}-status`)
   expect(emailStatus.title).toBe(validationError || 'Tudo certo')
   expect(emailStatus.textContent).toBe(validationError ? '🔴' : '🟢')
@@ -85,10 +95,6 @@ const testButtonIsDisabled = (sut: RenderResult, fieldName: string, isDisabled: 
 
 describe('Login Page', () => {
   afterEach(cleanup)
-
-  beforeEach(() => {
-    localStorage.clear()
-  })
 
   test('Should start with initial state', () => {
     const validationError = faker.random.words()
@@ -145,7 +151,7 @@ describe('Login Page', () => {
     await simulateValidSubmit(sut, email, password)
     expect(authenticationSpy.params).toEqual({
       email,
-      password
+      password,
     })
   })
 
@@ -172,12 +178,21 @@ describe('Login Page', () => {
     testErrorWrapChildCount(sut, 1)
   })
 
-  test('Should add access token to localstorage on success', async () => {
-    const { sut, authenticationSpy } = makeSut()
+  test('Should call SaveAccessToken on success', async () => {
+    const { sut, authenticationSpy, saveAccessTokenMock } = makeSut()
     await simulateValidSubmit(sut)
-    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+    expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.account.accessToken)
     expect(history.index).toBe(0)
     expect(history.location.pathname).toBe('/')
+  })
+
+  test('Should pesent error if SaveAccessToken fails', async () => {
+    const { sut, saveAccessTokenMock } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(saveAccessTokenMock, 'save').mockReturnValueOnce(Promise.reject(error))
+    await simulateValidSubmit(sut)
+    testElementText(sut, 'main-error', error.message)
+    testErrorWrapChildCount(sut, 1)
   })
 
   test('Should go to signup page', () => {
