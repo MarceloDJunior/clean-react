@@ -34,4 +34,11 @@ describe('RemoteAddAccount', () => {
     await sut.add(mockAddAccountParams())
     expect(httpPostClientSpy.url).toBe(url)
   })
+
+  test('Should call HttpClient with correct body', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    const addAccounParams = mockAddAccountParams()
+    await sut.add(addAccounParams)
+    expect(httpPostClientSpy.body).toEqual(addAccounParams)
+  })
 })
