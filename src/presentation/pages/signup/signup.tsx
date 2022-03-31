@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 
 import { LoginHeader, Footer, Input, FormStatus } from '@/presentation/components'
-import FormContext from '@/presentation/contexts/form/form-context'
+import FormContext, { formInitialState } from '@/presentation/contexts/form/form-context'
 
 import styles from './signup-styles.scss'
 
 export const SignUp: React.FC = () => {
   const [state, _] = useState({
-    isLoading: false,
+    ...formInitialState,
     nameError: 'Campo obrigatório',
     emailError: 'Campo obrigatório',
     passwordError: 'Campo obrigatório',
     passwordConfirmation: 'Campo obrigatório',
-    mainError: '',
   })
+
   return (
     <div className={styles.signup}>
       <LoginHeader />

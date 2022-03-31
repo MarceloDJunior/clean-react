@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { LoginHeader, Footer, Input, FormStatus } from '@/presentation/components'
-import FormContext, {
-  FormContextProps,
-  formInitialState,
-} from '@/presentation/contexts/form/form-context'
+import FormContext, { formInitialState } from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication, SaveAccessToken } from '@/domain/usecases'
 
@@ -19,7 +16,13 @@ type Props = {
 
 export const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }: Props) => {
   const navigate = useNavigate()
-  const [state, setState] = useState<FormContextProps>(formInitialState)
+  const [state, setState] = useState({
+    ...formInitialState,
+    email: '',
+    emailError: '',
+    password: '',
+    passwordError: '',
+  })
 
   useEffect(() => {
     setState({
