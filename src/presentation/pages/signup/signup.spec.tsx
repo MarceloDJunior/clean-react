@@ -42,4 +42,11 @@ describe('SignUp Page', () => {
     Helper.populateField(sut, 'name')
     Helper.testStatusForField(sut, 'name', validationError)
   })
+
+  test('Should show email error if validation fails', () => {
+    const validationError = faker.random.words()
+    const { sut } = makeSut({ validationError })
+    Helper.populateField(sut, 'email')
+    Helper.testStatusForField(sut, 'email', validationError)
+  })
 })
