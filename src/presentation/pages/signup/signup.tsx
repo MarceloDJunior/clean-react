@@ -68,7 +68,17 @@ export const SignUp: React.FC<Props> = ({ validation }) => {
             error={state.passwordConfirmationError}
             onChange={event => setState({ ...state, passwordConfirmation: event.target.value })}
           />
-          <button type="submit" data-testid="submit" disabled className={styles.submit}>
+          <button
+            type="submit"
+            data-testid="submit"
+            disabled={
+              !!state.nameError ||
+              !!state.emailError ||
+              !!state.passwordError ||
+              !!state.passwordConfirmationError
+            }
+            className={styles.submit}
+          >
             Entrar
           </button>
           <span className={styles.link}>Voltar para o login</span>
