@@ -34,11 +34,19 @@ export const SignUp: React.FC<Props> = ({ validation }) => {
     })
   }, [state.name, state.email, state.password, state.passwordConfirmation])
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    setState({
+      ...state,
+      isLoading: true,
+    })
+  }
+
   return (
     <div className={styles.signup}>
       <LoginHeader />
       <FormContext.Provider value={state}>
-        <form className={styles.form}>
+        <form className={styles.form} data-testid="form" onSubmit={handleSubmit}>
           <h2>Criar conta</h2>
           <Input
             type="text"
