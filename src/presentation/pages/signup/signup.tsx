@@ -9,9 +9,9 @@ import FormContext, { formInitialState } from '@/presentation/contexts/form/form
 import styles from './signup-styles.scss'
 
 type Props = {
-  validation?: Validation
-  addAccount?: AddAccount
-  saveAccessToken?: SaveAccessToken
+  validation: Validation
+  addAccount: AddAccount
+  saveAccessToken: SaveAccessToken
 }
 
 export const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) => {
@@ -32,11 +32,11 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToke
   useEffect(() => {
     const { name, email, password, passwordConfirmation } = state
     const formData = { name, email, password, passwordConfirmation }
-    const nameError = validation?.validate('name', formData) || ''
-    const emailError = validation?.validate('email', formData) || ''
-    const passwordError = validation?.validate('password', formData) || ''
+    const nameError = validation.validate('name', formData) || ''
+    const emailError = validation.validate('email', formData) || ''
+    const passwordError = validation.validate('password', formData) || ''
     const passwordConfirmationError =
-      validation?.validate('passwordConfirmation', formData) || ''
+      validation.validate('passwordConfirmation', formData) || ''
 
     setState({
       ...state,
@@ -58,14 +58,14 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToke
         ...state,
         isLoading: true,
       })
-      const account = await addAccount?.add({
+      const account = await addAccount.add({
         name: state.name,
         email: state.email,
         password: state.password,
         passwordConfirmation: state.passwordConfirmation,
       })
       if (account) {
-        await saveAccessToken?.save(account.accessToken)
+        await saveAccessToken.save(account.accessToken)
       }
       navigate('/', { replace: true })
     } catch (error) {
