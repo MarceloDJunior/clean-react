@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { LoginHeader, Footer, Input, FormStatus } from '@/presentation/components'
-import FormContext, {
-  FormContextProps,
-  formInitialState,
-} from '@/presentation/contexts/form/form-context'
+import { LoginHeader, Footer, Input, FormStatus, SubmitButton } from '@/presentation/components'
+import FormContext, { formInitialState } from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication, SaveAccessToken } from '@/domain/usecases'
 
@@ -19,20 +16,33 @@ type Props = {
 
 export const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }: Props) => {
   const navigate = useNavigate()
-  const [state, setState] = useState<FormContextProps>(formInitialState)
+  const [state, setState] = useState({
+    ...formInitialState,
+    isFormInvalid: true,
+    email: '',
+    emailError: '',
+    password: '',
+    passwordError: '',
+  })
 
   useEffect(() => {
+    const { email, password } = state
+    const formData = { email, password }
+    const emailError = validation?.validate('email', formData) || ''
+    const passwordError = validation?.validate('password', formData) || ''
+
     setState({
       ...state,
-      emailError: validation.validate('email', state.email) || '',
-      passwordError: validation.validate('password', state.password) || '',
+      emailError,
+      passwordError,
+      isFormInvalid: !!emailError || !!passwordError,
     })
   }, [state.email, state.password])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
-      if (state.isLoading || state.emailError || state.passwordError || !authentication) {
+      if (state.isLoading || state.isFormInvalid) {
         return
       }
       setState({
@@ -71,15 +81,8 @@ export const Login: React.FC<Props> = ({ validation, authentication, saveAccessT
             error={state.passwordError}
             onChange={event => setState({ ...state, password: event.target.value })}
           />
-          <button
-            type="submit"
-            className={styles.submit}
-            disabled={!!state.emailError || !!state.passwordError}
-            data-testid="submit"
-          >
-            Entrar
-          </button>
-          <Link data-testid="signup" to="/signup" className={styles.link}>
+          <SubmitButton text="Entrar" className={styles.submit} />
+          <Link data-testid="signup-link" to="/signup" className={styles.link}>
             Criar conta
           </Link>
           <FormStatus />

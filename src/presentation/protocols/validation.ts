@@ -1,3 +1,3 @@
 export interface Validation {
-  validate (fieldName: any, fieldValue: string): string | null
+  validate(fieldName: string, input: any): string | null
 }
