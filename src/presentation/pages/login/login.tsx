@@ -82,7 +82,7 @@ export const Login: React.FC<Props> = ({ validation, authentication, saveAccessT
           >
             Entrar
           </button>
-          <Link data-testid="signup" to="/signup" className={styles.link}>
+          <Link data-testid="signup-link" to="/signup" className={styles.link}>
             Criar conta
           </Link>
           <FormStatus />
