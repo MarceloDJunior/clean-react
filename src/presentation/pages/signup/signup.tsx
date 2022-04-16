@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { LoginHeader, Footer, Input, FormStatus } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols/validation'
@@ -121,7 +121,9 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToke
           >
             Entrar
           </button>
-          <span className={styles.link}>Voltar para o login</span>
+          <Link data-testid="login-link" replace to="/login" className={styles.link}>
+            Voltar para o login
+          </Link>
           <FormStatus />
         </form>
       </FormContext.Provider>
