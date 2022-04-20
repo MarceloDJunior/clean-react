@@ -10,7 +10,7 @@
     "plugin:cypress/recommended"
   ],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig-eslint.json"
   },
   "env": {
     "cypress/globals": true
