@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "types": [
-      "cypress"
+      "cypress",
+      "faker"
     ],
+    "esModuleInterop": true,
   },
   "include": [
     "../../../../node_modules/cypress",
