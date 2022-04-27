@@ -1,28 +1,38 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 import styles from './input-styles.scss'
 
-type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+type Props = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+> & {
   error?: string
 }
 
 const Input: React.FC<Props> = (props: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
     event.target.readOnly = false
   }
 
-  const getStatus = (): string => {
-    return props.error ? '🔴' : '🟢'
-  }
-
-  const getTitle = (): string => {
-    return props.error || 'Tudo certo'
-  }
-
   return (
     <div className={styles.inputWrap}>
-      <input {...props} data-testid={props.name} readOnly onFocus={enableInput} />
-      <span data-testid={`${props.name}-status`} title={getTitle()} className={styles.status}>{getStatus()}</span>
+      <input
+        {...props}
+        placeholder=" "
+        data-testid={props.name}
+        readOnly
+        onFocus={enableInput}
+        ref={inputRef}
+      />
+      <label onClick={() => inputRef.current?.focus()}>{props.placeholder}</label>
+      <span
+        data-testid={`${props.name}-status`}
+        title={props.error || 'Tudo certo'}
+        className={styles.status}
+      >
+        {props.error ? '🔴' : '🟢'}
+      </span>
     </div>
   )
 }
