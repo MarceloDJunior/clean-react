@@ -30,7 +30,8 @@
       {
         "ignoredNodes": [
           "TSTypeParameterInstantiation"
-        ]
+        ],
+        "SwitchCase": 1
       }
     ],
     "react/jsx-uses-react": "error",
