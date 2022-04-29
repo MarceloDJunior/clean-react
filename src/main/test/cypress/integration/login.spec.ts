@@ -86,8 +86,8 @@ describe('Login', () => {
         invalidProperty: faker.datatype.uuid(),
       },
     })
-    cy.getByTestId('email').focus().type('mango@gmail.com')
-    cy.getByTestId('password').focus().type('12345')
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit').click()
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error').should(
