@@ -16,9 +16,9 @@ describe('Login', () => {
 
   it('Should load with correct inital state', () => {
     cy.getByTestId('email-wrap').should('have.attr', 'data-status', 'invalid')
-    FormHelper.testInputStatus('email', 'Campo obrigatório!')
+    FormHelper.testInputStatus('email', 'Campo obrigatório')
     cy.getByTestId('password-wrap').should('have.attr', 'data-status', 'invalid')
-    FormHelper.testInputStatus('password', 'Campo obrigatório!')
+    FormHelper.testInputStatus('password', 'Campo obrigatório')
     cy.getByTestId('submit').should('have.attr', 'disabled')
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
