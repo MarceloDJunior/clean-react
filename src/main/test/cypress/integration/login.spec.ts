@@ -25,7 +25,6 @@ describe('Login', () => {
 
   it('Should present error state if form is invalid', () => {
     cy.getByTestId('email').focus().type(faker.random.word())
-    cy.getByTestId('email-wrap').should('have.attr', 'data-status', 'invalid')
     FormHelper.testInputStatus('email', 'Valor inválido')
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(3))
     FormHelper.testInputStatus('password', 'Valor inválido')
