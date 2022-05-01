@@ -7,13 +7,15 @@
       "esnext"
     ],
     "esModuleInterop": true,
-    "module": "esnext", 
+    "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
     "rootDir": "src",
     "baseUrl": "src",
     "paths": {
-      "@/*":["*"]
+      "@/*": [
+        "*"
+      ]
     },
     "allowJs": true,
     "strict": true,
@@ -24,5 +26,8 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "src/main/test/cypress/"
   ],
 }
