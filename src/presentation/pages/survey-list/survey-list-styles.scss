@@ -59,6 +59,7 @@
           background-image: 0 0, 54 0;
           background-size: 54px 100%, 100% 100%;
           position: relative;
+          min-height: 180px;
 
           .iconWrap {
             position: absolute;
@@ -100,6 +101,7 @@
             font-size: 18px;
             margin: 24px;
             align-self: center;
+            flex-grow: 1;
           }
         }
 
@@ -115,6 +117,20 @@
           &:hover {
             background-color: $primaryDark;
           }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .surveyListWrap {
+    .contentWrap {
+      ul {
+        flex-direction: column;
+
+        li {
+          flex-basis: 100%;
         }
       }
     }
