@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { LoginHeader, Footer, Input, FormStatus, SubmitButton } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccount, SaveAccessToken } from '@/domain/usecases'
+import { AddAccount, UpdateCurrentAccount } from '@/domain/usecases'
 import FormContext, { formInitialState } from '@/presentation/contexts/form/form-context'
 
 import styles from './signup-styles.scss'
@@ -11,10 +11,10 @@ import styles from './signup-styles.scss'
 type Props = {
   validation: Validation
   addAccount: AddAccount
-  saveAccessToken: SaveAccessToken
+  updateCurrentAccount: UpdateCurrentAccount
 }
 
-export const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) => {
+export const SignUp: React.FC<Props> = ({ validation, addAccount, updateCurrentAccount }) => {
   const navigate = useNavigate()
   const [state, setState] = useState({
     ...formInitialState,
@@ -35,8 +35,7 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToke
     const nameError = validation.validate('name', formData) || ''
     const emailError = validation.validate('email', formData) || ''
     const passwordError = validation.validate('password', formData) || ''
-    const passwordConfirmationError =
-      validation.validate('passwordConfirmation', formData) || ''
+    const passwordConfirmationError = validation.validate('passwordConfirmation', formData) || ''
 
     setState({
       ...state,
@@ -65,7 +64,7 @@ export const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToke
         passwordConfirmation: state.passwordConfirmation,
       })
       if (account) {
-        await saveAccessToken.save(account.accessToken)
+        await updateCurrentAccount.save(account)
       }
       navigate('/', { replace: true })
     } catch (error) {

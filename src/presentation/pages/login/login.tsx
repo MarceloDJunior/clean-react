@@ -4,17 +4,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import { LoginHeader, Footer, Input, FormStatus, SubmitButton } from '@/presentation/components'
 import FormContext, { formInitialState } from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation'
-import { Authentication, SaveAccessToken } from '@/domain/usecases'
+import { Authentication, UpdateCurrentAccount } from '@/domain/usecases'
 
 import styles from './login-styles.scss'
 
 type Props = {
   validation: Validation
   authentication: Authentication
-  saveAccessToken: SaveAccessToken
+  updateCurrentAccount: UpdateCurrentAccount
 }
 
-export const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }: Props) => {
+export const Login: React.FC<Props> = ({ validation, authentication, updateCurrentAccount }: Props) => {
   const navigate = useNavigate()
   const [state, setState] = useState({
     ...formInitialState,
@@ -50,7 +50,7 @@ export const Login: React.FC<Props> = ({ validation, authentication, saveAccessT
         isLoading: true,
       })
       const account = await authentication.auth({ email: state.email, password: state.password })
-      await saveAccessToken.save(account.accessToken)
+      await updateCurrentAccount.save(account)
       navigate('/', { replace: true })
     } catch (error) {
       setState({
